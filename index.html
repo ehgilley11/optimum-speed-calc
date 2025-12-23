@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimum Download Speed Calculator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        #calculator-container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0033a0; /* Optimum Blue */
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 17px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            max-width: 350px;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        button {
+            background-color: #ff6600; /* Optimum Orange */
+            color: white;
+            padding: 14px 35px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background-color: #e65c00;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255, 102, 0, 0.3);
+        }
+
+        #results-container {
+            margin-top: 30px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            text-align: left;
+        }
+
+        #results-container.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .results-table tr {
+            border-bottom: 1px solid #eee;
+        }
+
+        .results-table tr:last-child {
+            border-bottom: none;
+        }
+        
+        .results-table td {
+            padding: 15px 10px;
+            font-size: 16px;
+        }
+        
+        .plan-name {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .plan-time {
+            font-weight: bold;
+            font-size: 18px;
+            color: #0033a0;
+            text-align: right;
+        }
+        
+        .highlight {
+            background-color: #e6f0ff;
+            border-left: 4px solid #0033a0;
+            border-right: 4px solid #0033a0;
+        }
+
+        .highlight .plan-name::after {
+            content: 'Most Popular';
+            font-size: 12px;
+            font-weight: normal;
+            color: #0033a0;
+            background-color: #cce0ff;
+            padding: 3px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+
+        .cta-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="calculator-container">
+        <h2>What Does a Gig Actually Get You?</h2>
+        <p>See how long it takes to download common files on different Optimum speed plans. The results might surprise you.</p>
+
+        <div class="input-group">
+            <label for="file-select">Select a file to download:</label>
+            <select id="file-select">
+                <option value="100">🎮 PS5 Game (100 GB)</option>
+                <option value="50">🎬 4K Movie (50 GB)</option>
+                <option value="5">📈 Large Work Presentation (5 GB)</option>
+                <option value="1">📸 100 High-Res Photos (1 GB)</option>
+                <option value="0.15">🎵 Full Music Album (150 MB)</option>
+            </select>
+        </div>
+        
+        <button id="calculate-btn">Calculate Download Times</button>
+
+        <div id="results-container">
+            <table class="results-table">
+                <tbody>
+                    <tr>
+                        <td class="plan-name">300 Mbps</td>
+                        <td class="plan-time" id="time-300"></td>
+                    </tr>
+                    <tr>
+                        <td class="plan-name">500 Mbps</td>
+                        <td class="plan-time" id="time-500"></td>
+                    </tr>
+                    <tr class="highlight">
+                        <td class="plan-name">1 Gig Fiber</td>
+                        <td class="plan-time" id="time-1000"></td>
+                    </tr>
+                    <tr>
+                        <td class="plan-name">2 Gig Fiber</td>
+                        <td class="plan-time" id="time-2000"></td>
+                    </tr>
+                     <tr>
+                        <td class="plan-name">5 Gig Fiber</td>
+                        <td class="plan-time" id="time-5000"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="cta-section">
+                <p>Don't wait. Get your time back with faster speeds.</p>
+                <a href="https://www.optimum.com/internet" target="_blank"><button>Explore Optimum Plans</button></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const calculateBtn = document.getElementById('calculate-btn');
+            const fileSelect = document.getElementById('file-select');
+            const resultsContainer = document.getElementById('results-container');
+
+            const speedPlans = [
+                { id: 300, speed: 300 },
+                { id: 500, speed: 500 },
+                { id: 1000, speed: 1000 },
+                { id: 2000, speed: 2000 },
+                { id: 5000, speed: 5000 }
+            ];
+
+            function formatTime(seconds) {
+                if (seconds < 1) {
+                    return "Less than 1 second";
+                }
+                if (seconds < 60) {
+                    return `~${Math.ceil(seconds)} seconds`;
+                }
+                
+                const minutes = seconds / 60;
+                if (minutes < 60) {
+                    const roundedMinutes = Math.floor(minutes);
+                    const remainingSeconds = Math.round((minutes - roundedMinutes) * 60);
+                    if (roundedMinutes > 0 && remainingSeconds > 5) {
+                         return `~${roundedMinutes} min ${remainingSeconds} sec`;
+                    }
+                    return `~${Math.ceil(minutes)} minutes`;
+                }
+
+                const hours = minutes / 60;
+                const roundedHours = Math.floor(hours);
+                const remainingMinutes = Math.round((hours - roundedHours) * 60);
+                return `~${roundedHours} hr ${remainingMinutes} min`;
+            }
+
+            function calculateDownloadTime(fileSizeGB, speedMbps) {
+                // 1 GB = 8192 Megabits
+                const fileSizeInMegabits = fileSizeGB * 8192;
+                const timeInSeconds = fileSizeInMegabits / speedMbps;
+                return formatTime(timeInSeconds);
+            }
+
+            calculateBtn.addEventListener('click', () => {
+                const selectedFileSizeGB = parseFloat(fileSelect.value);
+
+                speedPlans.forEach(plan => {
+                    const timeCell = document.getElementById(`time-${plan.id}`);
+                    if (timeCell) {
+                        timeCell.textContent = calculateDownloadTime(selectedFileSizeGB, plan.speed);
+                    }
+                });
+
+                resultsContainer.classList.add('visible');
+            });
+        });
+    </script>
+
+</body>
+</html>
